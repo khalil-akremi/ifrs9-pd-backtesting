@@ -1,0 +1,1 @@
+[text](https://www.kaggle.com/competitions/GiveMeSomeCredit/data?select=cs-training.csv)

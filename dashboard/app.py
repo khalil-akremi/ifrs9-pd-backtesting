@@ -36,6 +36,29 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ── Navigation ─────────────────────────────────────────────────────────────────
+
+
+import streamlit as st
+
+st.set_page_config(
+    page_title = "IFRS 9 — PD Backtesting",
+    page_icon  = "🏦",
+    layout     = "wide",
+    initial_sidebar_state = "expanded"
+)
+
+st.markdown("""
+    <style>
+    .main-title {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #1f4e79;
+        text-align: center;
+        padding: 20px 0;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 st.sidebar.image("https://img.icons8.com/color/96/bank.png", width=80)
 st.sidebar.title("IFRS 9 — PD Backtesting")
 st.sidebar.markdown("---")
@@ -46,6 +69,9 @@ page = st.sidebar.radio(
      "🔍 Prédiction Client",
      "📊 Backtesting",
      "📁 Portefeuille",
+     "🔬 SHAP Explicabilité",
+     "📈 Monte Carlo ECL",
+     "⚡ Stress Testing",
      "📄 Rapport PDF"]
 )
 
@@ -58,16 +84,21 @@ st.sidebar.markdown("---")
 st.sidebar.markdown("**Auteur :** Khalil Akremi")
 st.sidebar.markdown("**ESSAI — 2026**")
 
-# ── Import des pages ───────────────────────────────────────────────────────────
 if page == "🏠 Accueil":
-    from pages.home     import show
+    from pages.home        import show
 elif page == "🔍 Prédiction Client":
-    from pages.predict  import show
+    from pages.predict     import show
 elif page == "📊 Backtesting":
-    from pages.backtest import show
+    from pages.backtest    import show
 elif page == "📁 Portefeuille":
-    from pages.portfolio import show
+    from pages.portfolio   import show
+elif page == "🔬 SHAP Explicabilité":
+    from pages.shap_page   import show
+elif page == "📈 Monte Carlo ECL":
+    from pages.montecarlo_page import show
+elif page == "⚡ Stress Testing":
+    from pages.stress_page import show
 elif page == "📄 Rapport PDF":
-    from pages.report   import show
+    from pages.report      import show
 
 show()

@@ -4,7 +4,8 @@ import streamlit as st
 import requests
 import plotly.graph_objects as go
 
-API_URL = "http://127.0.0.1:8000"
+# Nouvelle ligne — dans chaque page
+from config import API_URL
 
 def show():
     

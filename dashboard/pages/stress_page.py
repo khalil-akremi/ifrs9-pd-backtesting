@@ -5,7 +5,8 @@ import requests
 import plotly.graph_objects as go
 import pandas as pd
 
-API_URL = "http://127.0.0.1:8000"
+# Nouvelle ligne — dans chaque page
+from config import API_URL
 
 def show():
     

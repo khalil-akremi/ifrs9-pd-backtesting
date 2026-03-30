@@ -6,7 +6,8 @@ from fpdf import FPDF
 import tempfile
 from datetime import datetime
 
-API_URL = "http://127.0.0.1:8000"
+# Nouvelle ligne — dans chaque page
+from config import API_URL
 
 # ── Classe PDF personnalisée ───────────────────────────────────────────────────
 class IFRS9Report(FPDF):

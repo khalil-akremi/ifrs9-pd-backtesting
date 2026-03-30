@@ -1,0 +1,62 @@
+# docker-compose.yml
+
+
+
+services:
+
+  # ── Base de données PostgreSQL ───────────────────────────────────────────────
+  db:
+    image: postgres:15-alpine
+    container_name: ifrs9_db
+    environment:
+      POSTGRES_DB       : ifrs9
+      POSTGRES_USER     : ifrs9_user
+      POSTGRES_PASSWORD : ifrs9_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ifrs9_user -d ifrs9"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── API FastAPI ──────────────────────────────────────────────────────────────
+  api:
+    build:
+      context : .
+      dockerfile: Dockerfile.api
+    container_name: ifrs9_api
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://ifrs9_user:ifrs9_password@db:5432/ifrs9
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./models:/models
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ── Dashboard Streamlit ──────────────────────────────────────────────────────
+  dashboard:
+    build:
+      context : .
+      dockerfile: Dockerfile.dashboard
+    container_name: ifrs9_dashboard
+    ports:
+      - "8501:8501"
+    environment:
+      API_URL: http://api:8000
+    depends_on:
+      - api
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
